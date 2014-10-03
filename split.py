@@ -1,18 +1,21 @@
 __author__ = 'Eric T Dawson'
-import sys
-import re
+
 import os
 import argparse
-import shutil
-import math
+
 
 fastq_extensions = ["fq", "fastq"]
 fasta_extensions = ["fa", "fas", "fasta"]
 
 
 def parse_args():
-    parser = argparse.ArgumentParser()
+    parser = argparse.ArgumentParser(description="A program to split a single FASTA/FASTQ into many smaller"
+                                                 "files.")
     parser.add_argument("-i", dest="infile", type=str)
+    parser.add_argument("-splits", dest="splits", type=int, default=None,
+                        help="The number of intermediate files to split the infile into.")
+    parser.add_argument("-records", dest="records", type=int, default=None,
+                        help="The maximum number of records to put in an intermediate file.")
     args = parser.parse_args()
     return args
 
@@ -27,10 +30,28 @@ def count_records(filename, isFastq):
     return count
 
 
-def process_fasta_by_splits()
+def process_fasta_by_splits(filename, isFastq, num_splits):
+    split_number = -1
+    basename = os.path.basename(filename)
+    extension = basename.split(".")[-1]
+    iden = "@" if isFastq else ">"
+    record_count = 0
+    with open(filename, "r") as infile:
+        for line in infile:
+            is_new = line.startswith(iden)
+            if is_new:
+                split_number += 1
+                if split_number >= num_splits:
+                    split_number = 0
+                record_count += 1
+            cname = "".join(basename.split(".")[:-1]) + "_split_" + str(split_number) + "." + extension
+            with open(cname, "a") as outfile:
+                outfile.write(line)
+    return record_count
+
 
 def process_fasta(filename, isFastq, num_records=1000):
-    split_number = 1
+    split_number = 0
     basename = os.path.basename(filename)
     extension = basename.split(".")[-1]
     records = []
@@ -58,20 +79,6 @@ def process_fasta(filename, isFastq, num_records=1000):
     return original_records_count
 
 
-def split_file(filename):
-    basename = os.path.basename(filename)
-    file_path = os.path.abspath(filename)
-    isFastq = basename.split(".")[-1] in fastq_extensions
-    if not isFastq and not basename.split(".")[-1] in fasta_extensions:
-        raise ValueError("The file provided has neither a fasta nor fastq extension.")
-
-    ## TODO use os.getsize() to intelligently, rapidly esimate line count
-    ## TODO CHECK THIS VALUE
-    # x = math.ceil(float(num_records) / 10.0)
-    x = process_fasta(filename, isFastq, splits=10)
-    return x
-
-
 def main():
     args = parse_args()
     filename = args.infile
@@ -81,8 +88,11 @@ def main():
     if not isFastq and not basename.split(".")[-1] in fasta_extensions:
         raise ValueError("The file provided has neither a fasta nor fastq extension.")
 
-    num_records = count_records(filename, isFastq)
-    process_fasta(filename, 1000, isFastq)
+    if args.splits is not None:
+        process_fasta_by_splits(filename, isFastq, args.splits)
+
+    elif args.records is not None:
+        process_fasta(filename, isFastq, args.records)
 
 
 if __name__ == "__main__":
