@@ -94,6 +94,9 @@ def main():
     elif args.records is not None:
         process_fasta(filename, isFastq, args.records)
 
+    else:
+        raise ValueError("Please specify either -splits or -records, but not both.")
+
 
 if __name__ == "__main__":
     main()
