@@ -10,11 +10,11 @@ elif [[ "$1" =~ ^-.* ]]; then
     # redirect to 'intro' to show docs, etc.
     exec intro "$@"
 elif [[ "$1" == "split" ]]; then
-    shift
-    python /split-splice-fastq/split.py "$*"
+    shift;
+    python /split-splice-fastq/split.py "$@"
 elif [[ "$1" == "splice" ]]; then
-    shift
-    python /split-splice-fastq/splice.py "$*"
+    shift;
+    python /split-splice-fastq/splice.py "$@"
 else
     /bin/sh -c "$*"
 fi

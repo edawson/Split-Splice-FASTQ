@@ -11,6 +11,7 @@ target
 *.imp
 *.ipr
 *.iws
+*.swp
 
 # Eclipse metadata files
 .project
@@ -33,3 +34,5 @@ Icon
 # Local files
 100k_fasta_split_*
 test_fa_.*
+job-*
+submit

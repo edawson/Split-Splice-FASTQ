@@ -17,8 +17,9 @@ ADD docs/init.sh /usr/local/bin/init.sh
 RUN chmod +x /usr/local/bin/init.sh
 
 RUN mkdir /split-splice-fastq
-ADD split.py /split-splice-fastq/split.py
-ADD 100k_fasta.fa /split-splice-fastq/100k_fasta.fa
+ADD bin/split.py /split-splice-fastq/split.py
+ADD bin/splice.py /split-splice-fastq/splice.py
+ADD test/100k_fasta.fa /split-splice-fastq/100k_fasta.fa
 
 WORKDIR /data
 VOLUME /data
