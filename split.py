@@ -3,6 +3,7 @@ __author__ = 'Eric T Dawson'
 import os
 import argparse
 
+## TODO: add timestamping and output to folder (also specify output folder)
 
 fastq_extensions = ["fq", "fastq"]
 fasta_extensions = ["fa", "fas", "fasta"]
@@ -12,10 +13,12 @@ def parse_args():
     parser = argparse.ArgumentParser(description="A program to split a single FASTA/FASTQ into many smaller"
                                                  "files.")
     parser.add_argument("-i", dest="infile", type=str)
-    parser.add_argument("-splits", dest="splits", type=int, default=None,
+    parser.add_argument("-splits", dest="splits", type=int, default=None, required=False,
                         help="The number of intermediate files to split the infile into.")
-    parser.add_argument("-records", dest="records", type=int, default=None,
+    parser.add_argument("-records", dest="records", type=int, default=None, required=False,
                         help="The maximum number of records to put in an intermediate file.")
+    parser.add_argument("-o", dest="output", type=str, required=False,
+                        help="The absolute or relative path in which to place the output")
     args = parser.parse_args()
     return args
 
@@ -31,6 +34,8 @@ def count_records(filename, isFastq):
 
 
 def process_fasta_by_splits(filename, isFastq, num_splits):
+    """Splits a given file into <num_splits> files. May be slow on
+    systems with limited I/O performance"""
     split_number = -1
     basename = os.path.basename(filename)
     extension = basename.split(".")[-1]
@@ -51,6 +56,8 @@ def process_fasta_by_splits(filename, isFastq, num_splits):
 
 
 def process_fasta(filename, isFastq, num_records=1000):
+    """Splits a given file into a set of files each
+    containing <num_records> records"""
     split_number = 0
     basename = os.path.basename(filename)
     extension = basename.split(".")[-1]
