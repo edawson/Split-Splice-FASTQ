@@ -1,0 +1,10 @@
+python split [OPTION]...
+
+Split-Splice-FASTQ will split an existing fasta file into mulitple pieces specified by the user.
+
+Options:
+  -h                  Print this help message and exit.
+  -i 	                Input file to split.
+  -split <SPLITS>     The number of intermediate files to split the infile into.
+  -records <RECORDS>  The maximum number of records to put in an intermediate file.
+  -h                  Print this help message and exit.
