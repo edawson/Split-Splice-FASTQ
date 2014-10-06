@@ -1,0 +1,12 @@
+Examples
+========
+
+- Split a fasta file for processing by BWA:
+
+  $ docker run -it -v `pwd`:/data split-splice-fastq split -i <filename> -split 5
+
+  This will mount your current working directory to the docker container and run the split app on a file named <filename> in your current work directory. The result will be 5 files in the same directory as <filename>.
+
+- Splice a fasta file back into a single file:
+
+  $ docker run -it -v `pwd`:/data split-splice-fastq splice -o <filename>

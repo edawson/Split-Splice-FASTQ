@@ -13,8 +13,9 @@ fasta_extensions = ["fa", "fas", "fasta"]
 def parse_args():
     parser = argparse.ArgumentParser(description="A program to split a single FASTA/FASTQ into many smaller"
                                                  "files.")
-    parser.add_argument("-i", dest="infile", type=str)
-    parser.add_argument("-splits", dest="splits", type=int, default=None, required=False,
+    parser.add_argument("-i", dest="infile", type=str, default=None,
+                        help="The input file to split.")
+    parser.add_argument("-splits", dest="splits", type=int, default=None,
                         help="The number of intermediate files to split the infile into.")
     parser.add_argument("-records", dest="records", type=int, default=None, required=False,
                         help="The maximum number of records to put in an intermediate file.")

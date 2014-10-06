@@ -1,0 +1,97 @@
+{
+  "name": "dooley-split-splice-fastq",
+  "version": "0.1.0",
+  "helpURI": "https://github.com/deardooley/Split-Splice-FASTQ",
+  "label": "Split-Slice-FASTQ",
+  "defaultNodeCount": 1,
+  "defaultRequestedTime": "01:00:00",
+  "shortDescription": "Splits fasta files for BWA",
+  "longDescription": "Split-Splice-FASTQ will split an existing fasta file into mulitple pieces specified by the user.",
+  "executionSystem": "dooley-rodeo-docker1",
+  "executionType": "CLI",
+  "parallelism": "SERIAL",
+  "checkpointable": false,
+  "deploymentPath": "dooley/applications/2.0/dooley-split-splice-fastq",
+  "deploymentSystem": "data.iplantcollaborative.org",
+  "templatePath": "wrapper.sh",
+  "testPath": "test/test.sh",
+  "tags": [
+    "docker", "bwa", "fasta"
+  ],
+  "modules": [],
+  "inputs": [
+    {
+      "id": "infile",
+      "details": {
+      	"label": "Input File",
+        "description": "Input file to split.",
+        "argument": null,
+        "showArgument": false
+      },
+      "semantics": {
+        "minCardinality": 1,
+        "ontology": []
+      },
+      "value": {
+        "required": false,
+        "visible": true
+      }
+    }
+  ],
+  "parameters": [
+    {
+      "id": "unpackInputs",
+      "details": {
+        "label": "Unpack input files",
+        "description": "If true, any compressed input files will be expanded prior to execution on the remote system.",
+        "argument": "1",
+        "showArgument": true
+      },
+      "value": {
+        "default": "true",
+        "type": "flag",
+        "visible": true,
+        "required": false
+      },
+      "semantics": {
+        "ontology": []
+      }
+    },
+    {
+      "id": "slices",
+      "details": {
+        "label": "Number of slices",
+        "description": "The number of intermediate files to split the infile into.",
+        "argument": "-split ",
+        "showArgument": true
+      },
+      "value": {
+      	"visible": true,
+        "required": true,
+        "type": "number",
+        "default": 5
+      },
+      "semantics": {
+        "ontology": []
+      }
+    },
+    {
+      "id": "records",
+      "details": {
+        "label": "Max records per slice",
+        "description": "The maximum number of records to put in an intermediate file.",
+        "argument": "-records ",
+        "showArgument": true
+      },
+      "value": {
+        "default": 1000,
+        "type": "number",
+        "required": false,
+        "visible": true
+      },
+      "semantics": {
+        "ontology": []
+      }
+    }
+  ]
+}
