@@ -4,6 +4,7 @@ import os
 import argparse
 
 ## TODO: add timestamping and output to folder (also specify output folder)
+## TODO: short and long versions of input flags
 
 fastq_extensions = ["fq", "fastq"]
 fasta_extensions = ["fa", "fas", "fasta"]
